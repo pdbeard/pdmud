@@ -1,0 +1,34 @@
+#NOP =====================================================;
+#NOP  Affects + Party state — write to JSON files for widgets;
+#NOP =====================================================;
+
+#NOP --- Affects list (accumulated between refreshes);
+#VAR {affect_list} {}
+
+#NOP --- Trigger: start of affects block (adjust to NukeFire output);
+#ACTION {^You are affected by:} {
+    #VAR {affect_list} {}
+    #GAG
+}
+
+#NOP --- Trigger: individual affect line;
+#ACTION {^Spell: %* : modifies %* by %* for %* hours} {
+    #VAR {affect_list} {$affect_list%1\n}
+    #GAG
+}
+
+#NOP --- Trigger: end of affects block — write state file;
+#ACTION {^You have %* practice%*} {
+    #SYSTEM {printf '%s' '$affect_list' > $log_dir/affects.state}
+    #GAG
+}
+
+#NOP --- Party state;
+#ACTION {^%* %*/%*hp %*/%*mana %*/%*mv%*} {
+    #SYSTEM {echo '%1 hp=%2/%3 mana=%4/%5 mv=%6/%7' >> $log_dir/party.state.tmp}
+}
+
+#NOP --- Flush party state on prompt (adjust prompt pattern to NukeFire);
+#PROMPT {^<%*/%*hp %*/%*mana%*>} {
+    #SYSTEM {mv $log_dir/party.state.tmp $log_dir/party.state 2>/dev/null; > $log_dir/party.state.tmp}
+}

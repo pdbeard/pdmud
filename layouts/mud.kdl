@@ -1,0 +1,25 @@
+layout {
+    pane split_direction="vertical" {
+
+        // Left half — main TinTin++ output
+        pane size="50%" command="tt++" {
+            args "tin/main.tin"
+            name "main"
+        }
+
+        // Right half — top row + chat stacked
+        pane split_direction="horizontal" {
+
+            // Top row: map | affects — auto 50/50
+            pane split_direction="vertical" size="65%" {
+                pane name="map" command="bash" {
+                    args "-c" "echo 'Map — connect to NukeFire to populate'; cat"
+                }
+                pane name="affects" command="bin/affects"
+            }
+
+            // Bottom: chat, full width of right half
+            pane name="chat" command="bin/chat"
+        }
+    }
+}

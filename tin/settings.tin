@@ -1,0 +1,20 @@
+#NOP =====================================================;
+#NOP  Settings;
+#NOP =====================================================;
+
+#NOP --- NukeFire connection details — override in local.tin if present;
+#VAR {mud_host} {nukefire.com}
+#VAR {mud_port} {4000}
+
+#NOP --- Log directory (relative to tt++ launch dir);
+#VAR {log_dir} {logs}
+
+#NOP --- Terminal;
+#CONFIG {CHARSET}    {UTF-8}
+#CONFIG {VERBATIM}   {ON}
+#CONFIG {SCREENDELAY}{0}
+
+#NOP --- Load local overrides if present (host/port/personal settings);
+#SWITCH {%r "$log_dir/local.tin"} {
+    #CASE {0} {#READ {local.tin}}
+}

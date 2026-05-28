@@ -1,0 +1,15 @@
+#NOP =====================================================;
+#NOP  Map configuration;
+#NOP =====================================================;
+
+#NOP --- Enable ANSI vtmap in the top split region;
+#MAP FLAG {VTMAP} {ON}
+#MAP FLAG {NOFOLLOW} {OFF}
+
+#NOP --- Create map if it doesn't exist yet;
+#MAP READ {logs/nukefire.map}
+
+#NOP --- Auto-save map periodically;
+#EVENT {IAC SB TELOPT_EOR IAC SE} {
+    #MAP WRITE {logs/nukefire.map}
+}

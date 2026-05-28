@@ -1,0 +1,5 @@
+bin/
+logs/
+*.map
+affects
+chat

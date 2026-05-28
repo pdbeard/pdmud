@@ -1,0 +1,42 @@
+#NOP =====================================================;
+#NOP  Chat routing — gag from main, write to log files;
+#NOP  Adjust patterns to match NukeFire's actual output;
+#NOP =====================================================;
+
+#NOP --- Ensure log files exist;
+#SYSTEM {touch $log_dir/global.log $log_dir/local.log $log_dir/tells.log $log_dir/auction.log}
+
+#NOP --- Global chat;
+#NOP  Pattern: adjust to match NukeFire global channel format;
+#ACTION {^%*chat%*: %*} {
+    #LOG {APPEND} {$log_dir/global.log} {%0}
+    #GAG
+}
+
+#NOP --- Local / say;
+#ACTION {^%* says '%*'} {
+    #LOG {APPEND} {$log_dir/local.log} {%0}
+    #GAG
+}
+
+#ACTION {^%* say '%*'} {
+    #LOG {APPEND} {$log_dir/local.log} {%0}
+    #GAG
+}
+
+#NOP --- Tells;
+#ACTION {^%* tells you '%*'} {
+    #LOG {APPEND} {$log_dir/tells.log} {%0}
+    #GAG
+}
+
+#ACTION {^You tell %* '%*'} {
+    #LOG {APPEND} {$log_dir/tells.log} {%0}
+    #GAG
+}
+
+#NOP --- Auction;
+#ACTION {^%*auction%*: %*} {
+    #LOG {APPEND} {$log_dir/auction.log} {%0}
+    #GAG
+}

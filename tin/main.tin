@@ -1,0 +1,13 @@
+#NOP =====================================================;
+#NOP  NukeFire MUD — main config;
+#NOP =====================================================;
+
+#NOP --- Load modules;
+#READ {tin/settings.tin}
+#READ {tin/chat.tin}
+#READ {tin/affects.tin}
+#READ {tin/map.tin}
+#READ {tin/aliases.tin}
+
+#NOP --- Connect;
+#SESSION {nukefire} {%1} {%2} {%3}

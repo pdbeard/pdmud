@@ -1,0 +1,21 @@
+#NOP =====================================================;
+#NOP  Aliases;
+#NOP =====================================================;
+
+#NOP --- Shorthand directions;
+#ALIAS {n}  {north}
+#ALIAS {s}  {south}
+#ALIAS {e}  {east}
+#ALIAS {w}  {west}
+#ALIAS {u}  {up}
+#ALIAS {d}  {down}
+#ALIAS {nw} {northwest}
+#ALIAS {ne} {northeast}
+#ALIAS {sw} {southwest}
+#ALIAS {se} {southeast}
+
+#NOP --- Quick affects check;
+#ALIAS {aff} {affects}
+
+#NOP --- Quick score;
+#ALIAS {sc} {score}
