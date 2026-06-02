@@ -1,0 +1,52 @@
+#NOP =====================================================;
+#NOP  Protocol discovery + debug logging;
+#NOP  Comment out the #READ in main.tin to disable.;
+#NOP =====================================================;
+
+#NOP --- Enable verbose telnet negotiation logging;
+#NOP --- (writes WILL/WONT/DO/DONT exchanges to TinTin++ output);
+#CONFIG {DEBUG TELNET} {ON}
+
+#NOP =====================================================;
+#NOP  GMCP — log every incoming GMCP message to logs/gmcp.log;
+#NOP =====================================================;
+
+#EVENT {IAC SB GMCP %1 IAC SE} {
+    #LOG {APPEND} {$log_dir/gmcp.log} {%1}
+}
+
+#NOP =====================================================;
+#NOP  MSDP — log every incoming MSDP message to logs/msdp.log;
+#NOP =====================================================;
+
+#EVENT {IAC SB MSDP %1 IAC SE} {
+    #LOG {APPEND} {$log_dir/msdp.log} {%1}
+}
+
+#NOP =====================================================;
+#NOP  On connect — introduce ourselves and ask what's supported;
+#NOP =====================================================;
+
+#EVENT {SESSION CONNECTED} {
+    #NOP --- GMCP: identify and request package list;
+    #SEND {\xFF\xFA\xC9 Core.Hello { "client" : "pdmud", "version" : "0.1" } \xFF\xF0}
+    #SEND {\xFF\xFA\xC9 Core.Supports.Get \xFF\xF0}
+
+    #NOP --- MSDP: request variable list;
+    #SEND {\xFF\xFA\x45 \x01 LIST \x02 REPORTABLE_VARIABLES \xFF\xF0}
+    #SEND {\xFF\xFA\x45 \x01 LIST \x02 COMMANDS \xFF\xF0}
+    #SEND {\xFF\xFA\x45 \x01 LIST \x02 CONFIGURABLE_VARIABLES \xFF\xF0}
+
+    #SHOWME {<178>[debug] Sent GMCP/MSDP discovery requests. Check logs/gmcp.log and logs/msdp.log<088>}
+}
+
+#NOP =====================================================;
+#NOP  Convenience: dump the discovery findings;
+#NOP =====================================================;
+
+#ALIAS {discover} {
+    #SHOWME {=== GMCP messages received ===}
+    #SYSTEM {cat $log_dir/gmcp.log 2>/dev/null | sort -u | head -50}
+    #SHOWME {=== MSDP messages received ===}
+    #SYSTEM {cat $log_dir/msdp.log 2>/dev/null | sort -u | head -50}
+}

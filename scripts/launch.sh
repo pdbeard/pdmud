@@ -10,6 +10,7 @@ cd "$ROOT"
 mkdir -p logs
 touch logs/global.log logs/local.log logs/tells.log logs/auction.log
 touch logs/affects.state logs/party.state logs/party.state.tmp
+touch logs/gmcp.log logs/msdp.log
 
 # Build widgets if binaries are missing
 if [[ ! -f bin/chat || ! -f bin/affects ]]; then

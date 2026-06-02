@@ -4,6 +4,7 @@
 
 #NOP --- Load modules;
 #READ {tin/settings.tin}
+#READ {tin/debug.tin}
 #READ {tin/chat.tin}
 #READ {tin/affects.tin}
 #READ {tin/map.tin}
